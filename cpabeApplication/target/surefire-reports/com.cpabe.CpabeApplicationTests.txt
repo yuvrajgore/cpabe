@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.cpabe.CpabeApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 16.342 sec - in com.cpabe.CpabeApplicationTests
