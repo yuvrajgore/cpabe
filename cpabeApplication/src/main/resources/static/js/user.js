@@ -3,14 +3,13 @@
 	$("#success-alert").hide();
 	$("#error-alert").hide();
 	/* ----------Get Role Info -------------*/
+	function getUserInfo(){
 	$.ajax({
 		type : "POST",
 		url : "getUserRoleInfo",
 		dataType : 'json',
 		contentType: "application/json",
 		success : function(data) {
-			console.log("Role");
-			console.log(data);
 			var userRole = '';
 			$.each( data, function( key, value ) {
 				userRole += '<option value="'+value.userRoleId+'">'+ value.userRoleDescription+ '</option>';
@@ -20,47 +19,24 @@
 			var userHeaderList='';
 			var usersTabContent='';
 			$.each( data, function( key, value ) {
-				console.log(value.userRoleId);
 				if(value.userRoleId=='1'){
 					getUserByRole(value.userRoleId);
 					userHeaderList+=' <li class="active"><a href="#tab_'+value.userRoleId+'" data-toggle="tab" aria-expanded="true" onclick="getUserByRole('+value.userRoleId+')">'+value.userRoleName+'</a></li>';
-					usersTabContent='<div class="tab-pane active" id="tab_'+value.userRoleId+' "><b>'+value.userRoleName+'  Details:</b>'
-					+'<table  class="table table-striped table-bordered table-advance table-hover ">'
-					+'<thead class="table-header-background">'								
-					   +'<tr>	<th> Sr.No.	</th>	<th> First Name</th><th> Last Name</th><th> Username</th><th> Action	</th>	</tr>'
-					+'</thead>'
-					+'<tbody id="userList_'+value.userRoleId+' ">'
-					+'</tbody>'
-					+'</table>'
-					+'</div>';
-					
-				}else{
+					}else{
 					userHeaderList+='   <li class=""><a href="#tab_'+value.userRoleId+'" data-toggle="tab" aria-expanded="false" onclick="getUserByRole('+value.userRoleId+')">'+value.userRoleName+'</a></li>';
-					usersTabContent='<div class="tab-pane active" id="tab_'+value.userRoleId+' ">'
-					+'<b>'+value.userRoleName+'  Details:</b>'
-					+'<table  class="table table-striped table-bordered table-advance table-hover ">'
-					+'<thead class="table-header-background">'								
-					   +'<tr>	<th> Sr.No.	</th>	<th> First Name</th><th> Last Name</th><th> Username</th><th> Action	</th>	</tr>'
-					+'</thead>'
-					+'<tbody id="userList_"'+value.userRoleId+'>'
-					+'</tbody>'
-					+'</table>'
-					+'</div>';
-					
-				}
+					}				
 				
 			});
-			$("#usersHeader").append(userHeaderList);
-			$("#usersTabContent").append(usersTabContent);
+			$("#usersHeader").html(userHeaderList);
+			
 		},
 		error:function(response){
 			alert("No Role Info found...");
 		}		
 	});
-	
+	}
 	/*List of user according to role*/
 	function getUserByRole(id){
-		alert(id);
 		$.ajax({
 			type : "POST",
 			url : "getUsersByRole",
@@ -78,6 +54,16 @@
 			        	'</td>'+ '<td><a class="btn btn-primary registration" data-toggle="modal" href="#" onclick="editUser('+item.userId+')">Edit</a>'+
 			        	'<a	 class="btn btn-danger"  href="javascript:void(0)" style="margin-left:5px" onclick="deleteUser('+item.userId+')">Delete</a></td></tr>';
 			        });
+			        usersTabContent='<div class="tab-pane active" id="tab_'+id+' "><b>Details:</b>'
+					+'<table  class="table table-striped table-bordered table-advance table-hover ">'
+					+'<thead class="table-header-background">'								
+					   +'<tr>	<th> Sr.No.	</th>	<th> First Name</th><th> Last Name</th><th> Username</th><th> Action	</th>	</tr>'
+					+'</thead>'
+					+'<tbody id="userList_'+id+'">'
+					+'</tbody>'
+					+'</table>'
+					+'</div>';
+			        $("#usersTabContent").html(usersTabContent);
 			        $("#userList_"+id).append(userList);
 			},
 			error:function(response){
@@ -168,31 +154,7 @@
 						}
 					}
 				}); 	
-function getUserInfo(){
-	/*----------List of users--------------*/
-	$.ajax({
-	type : "POST",
-	url : "getUserInfo",
-	dataType : 'json',
-	contentType: "application/json",
-	success : function(data) {
-		console.log("user info");
-		console.log(data);
-		 var userList = '';
-		 var count=1;
-	        $.each(data, function (i, item) {
-	        	userList += '<tr><td>' +count++ + '</td><td>' + item.firstName + 
-	        	'</td><td>' + item.lastName + '</td>'+ '<td>' + item.userName+
-	        	'</td>'+ '<td><a class="btn btn-primary registration" data-toggle="modal" href="#" onclick="editUser('+item.userId+')">Edit</a>'+
-	        	'<a	 class="btn btn-danger"  href="javascript:void(0)" style="margin-left:5px" onclick="deleteUser('+item.userId+')">Delete</a></td></tr>';
-	        });
-	        $('#userList').html(userList);
-	},
-	error:function(response){
-		alert("No records found...");
-	}		
-});
-}
+
 function submitForm(){
 	var userInformation=$("#userForm").serializeArray();
 	var userObject = '{';
