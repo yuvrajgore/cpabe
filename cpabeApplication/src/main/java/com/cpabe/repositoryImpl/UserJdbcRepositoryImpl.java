@@ -27,4 +27,31 @@ public class UserJdbcRepositoryImpl implements UserJdbcRepository {
 		return userList;
 	}
 
+	@Override
+	public Iterable<User> requestUserInfo(User user) {
+		Iterable<User> userList=null;
+		String query="SELECT users.id , `username`, `firstname`, `lastname`, `email`, `userroleid`, "
+				+ "`battalionid`, `regionid`, `enabled` FROM `users` INNER JOIN user_roles on users.userroleid=user_roles.id"
+				+ " where users.userroleid=2 and users.battalionid="+user.getBattalionId()+"";
+		try {		
+			userList=jdbcTemplate.query(query,new UserMapper());
+		} catch (Exception e) {
+			System.out.println("Error to fetch user list:"+e.getMessage());
+		}
+		return userList;
+	}
+
+	@Override
+	public Iterable<User> requestKeyAuthorityInfo() {
+		Iterable<User> userList=null;
+		String query="SELECT users.id , `username`, `firstname`, `lastname`, `email`, `userroleid`, "
+				+ "`battalionid`, `regionid`, `enabled` FROM `users` INNER JOIN user_roles on users.userroleid=user_roles.id"
+				+ " where users.userroleid=4";
+		try {		
+			userList=jdbcTemplate.query(query,new UserMapper());
+		} catch (Exception e) {
+			System.out.println("Error to fetch user list:"+e.getMessage());
+		}
+		return userList;	}
+
 }
