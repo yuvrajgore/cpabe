@@ -21,6 +21,10 @@
             <li><a href="profile"><i class="fa fa-circle-o"></i>My Profile</a></li>
           </ul>
         </li>
+         <li class="treeview">
+          <a href="sendMessage"><i class="fa fa-envelope"></i> <span>Send Message</span>
+          </a>
+        </li>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-pie-chart"></i>
